@@ -48,6 +48,15 @@ action :create do
     notifies :stop,   "service[#{svc_name}-stop]" if need_stop_start
     notifies :start,  "service[#{svc_name}]"
   end
+
+  # -- Register a Consul service -- #
+
+  consul_service_def svc_name do
+    action    :create
+    tags      ["memcached",new_resource.name]
+    port      new_resource.port
+    notifies  :reload, "service[consul]"
+  end
 end
 
 action :delete do
