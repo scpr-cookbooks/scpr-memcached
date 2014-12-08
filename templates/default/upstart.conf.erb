@@ -1,0 +1,14 @@
+# This config file is written by the scpr-memcached Chef cookbook
+
+description "memcached (<%= @service.name %>)"
+
+start on runlevel [2345]
+stop on runlevel [016]
+
+console log
+
+setuid <%= node.scpr_memcached.user %>
+
+script
+/usr/bin/memcached -l <%= @listen_ip %> -m <%= @service.memory %> -p <%= @service.port %>
+end script
